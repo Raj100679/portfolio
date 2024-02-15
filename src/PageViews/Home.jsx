@@ -1,20 +1,68 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useState, useEffect, useCallback } from "react";
+import styled, { keyframes } from "styled-components";
+import { Cursor, useTypewriter } from "react-simple-typewriter";
+import { loadSlim } from "tsparticles-slim";
 import "../styles/styles.css";
+import Particles from "react-tsparticles";
+import particlesConfig from "./particles.json";
 
 function Home() {
+  const [id, setId] = useState(0);
+  const [isTypewriterDone, setIsTypewriterDone] = useState(false);
+
+  const [currentWord] = useTypewriter({
+    words: ["Frontend Developer", "Freelancer", "Open-Source Contributor"],
+    loop: 1,
+    typeSpeed: 150,
+    deleteSpeed: 120,
+    onLoopDone: () => setIsTypewriterDone(true),
+  });
+
+  useEffect(() => {
+    if (isTypewriterDone) {
+      setId(1); // Update the id state once typewriter is done
+    }
+  }, [isTypewriterDone]);
+
+  const particlesInit = useCallback(async (engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  const particlesLoaded = useCallback(async (container) => {
+    console.log(container);
+  }, []);
+
   return (
-    <Container>
-      <Content>
-        <AnimatedHeading>Raj Kasat</AnimatedHeading>
-        <DescriptionList>
-          <li>Frontend Developer</li>
-          <li>Freelancer</li>
-        </DescriptionList>
-      </Content>
-      <AnimatedBlock />
-      <AnimatedBlock/>
-    </Container>
+    <>
+    
+      <Container>
+      <Particles
+        id="tsparticles"
+        options={particlesConfig}
+        init={particlesInit}
+        loaded={particlesLoaded}
+      />
+        <Content>
+          <AnimatedHeading>Raj Kasat</AnimatedHeading>
+          <h1 style={{ margin: "50px", transition: "opacity 0.5s" }}>
+            {id ? (
+              <span style={{ opacity: 1 }}>
+                Frontend Developer <span style={{ color: "#34495e" }}>|</span>{" "}
+                Freelancer
+              </span>
+            ) : (
+              <>
+                <span style={{ opacity: 1, color: "white" }}>I am a</span>{" "}
+                <span style={{ opacity: isTypewriterDone ? 0 : 1 }}>
+                  {currentWord}
+                </span>
+                {isTypewriterDone && <Cursor cursorColor="#BD53ED" />}
+              </>
+            )}
+          </h1>
+        </Content>
+      </Container>
+    </>
   );
 }
 
@@ -30,18 +78,18 @@ const fadeIn = keyframes`
 `;
 
 const Container = styled.div`
-  width:100wh;
-  height:100vh;
+  width: 100wh;
+  height: 100vh;
   position: relative;
   display: flex;
-  flex-direction:center;
+  flex-direction: center;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('your-image-url.jpg');
+  background-color: #1d1e23;
   background-size: cover;
   background-position: center;
   color: #ffffff;
-  overflow:hidden;
+  overflow: hidden;
 `;
 
 const Content = styled.div`
@@ -50,41 +98,9 @@ const Content = styled.div`
 
 const AnimatedHeading = styled.h1`
   animation: ${fadeIn} 1s ease-in-out;
-  font-family: 'Roboto', sans-serif; 
+  font-family: "Roboto", sans-serif;
   font-size: 48px;
   margin-bottom: 20px;
-`;
-
-const DescriptionList = styled.ul`
-  display: flex;
-  list-style-type: none;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  padding: 0;
-`;
-
-DescriptionList.displayName = 'StyledList';
-
-const moveAround = keyframes`
-  0% {
-    transform: translate(-50%, -50%);
-  }
-  50% {
-    transform: translate(50%, 50%);
-  }
-  100% {
-    transform: translate(-50%, -50%);
-  }
-`;
-
-const AnimatedBlock = styled.div`
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background-color: #FF5733; // Customize the color as needed
-  border-radius: 50%;
-  animation: ${moveAround} 5s linear infinite;
 `;
 
 export default Home;
