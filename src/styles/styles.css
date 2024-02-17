@@ -1,13 +1,28 @@
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: "Large-Semibold", Helvetica, sans-serif;
 }
-h1{
+h1 {
     font-weight: 600;
     font-size: 2rem;
 }
-span{
-    color: #BD53ED;
+span {
+    color: #bd53ed;
 }
 
+/* .tspar{
+  position: absolute;
+  top: 0;
+  height: 300px;
+} */
+#tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1400px;
+    height: 670px;
+}
+.App{
+    overflow: hidden;
+}

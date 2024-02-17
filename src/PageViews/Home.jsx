@@ -5,6 +5,7 @@ import { loadSlim } from "tsparticles-slim";
 import "../styles/styles.css";
 import Particles from "react-tsparticles";
 import particlesConfig from "./particles.json";
+import Socials from "../Components/Socials";
 
 function Home() {
   const [id, setId] = useState(0);
@@ -13,14 +14,14 @@ function Home() {
   const [currentWord] = useTypewriter({
     words: ["Frontend Developer", "Freelancer", "Open-Source Contributor"],
     loop: 1,
-    typeSpeed: 150,
-    deleteSpeed: 120,
+    typeSpeed: 50,
+    deleteSpeed: 50,
     onLoopDone: () => setIsTypewriterDone(true),
   });
 
   useEffect(() => {
     if (isTypewriterDone) {
-      setId(1); // Update the id state once typewriter is done
+      setId(1);
     }
   }, [isTypewriterDone]);
 
@@ -34,14 +35,15 @@ function Home() {
 
   return (
     <>
-    
       <Container>
-      <Particles
-        id="tsparticles"
-        options={particlesConfig}
-        init={particlesInit}
-        loaded={particlesLoaded}
-      />
+        <div className="tspar">
+          <Particles
+            id="tsparticles"
+            options={particlesConfig}
+            init={particlesInit}
+            loaded={particlesLoaded}
+          />
+        </div>
         <Content>
           <AnimatedHeading>Raj Kasat</AnimatedHeading>
           <h1 style={{ margin: "50px", transition: "opacity 0.5s" }}>
@@ -60,6 +62,7 @@ function Home() {
               </>
             )}
           </h1>
+          <Socials />
         </Content>
       </Container>
     </>
@@ -78,18 +81,18 @@ const fadeIn = keyframes`
 `;
 
 const Container = styled.div`
-  width: 100wh;
+  width: 100vw;
   height: 100vh;
   position: relative;
   display: flex;
-  flex-direction: center;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #1d1e23;
   background-size: cover;
   background-position: center;
   color: #ffffff;
-  overflow: hidden;
+  overflow:hidden;
 `;
 
 const Content = styled.div`
